@@ -1,0 +1,4 @@
+Para hacer funcionar la página se necesita:
+1) Inicializar el servicio de MySQL con XAMPP (o el de preferencia)
+2) Crear la base de datos "universidad" en MySQL.
+3) Asignarle el PORT, ROOT  y dirección del equipo en el archivo main.py

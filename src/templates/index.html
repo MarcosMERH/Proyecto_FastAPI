@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universidad Experimental "Gerardo Torbes"</title>
+    <!-- Agrega los estilos de Bootstrap (puedes usar un CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Registro de Estudiantes</h1>
+
+        <!-- Formulario para agregar un estudiante -->
+        <form method="post" action="/estudiante">
+            <div class="form-group">
+                <label for="nombre">Cedula del estudiante:</label>
+                <input type="text" class="form-control" id="cedula" name="cedula" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre del estudiante:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Apellido del estudiante:</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" required>
+            </div>
+            <h2>Materia del Estudiante</h2>
+            <div class="form-group">
+                <label for="grupo">Materia:</label>
+                <input type="text" class="form-control" id="name_materia" name="name_materia" required>
+            </div>
+            <div class="form-group">
+                <label for="grupo">Crédito:</label>
+                <input type="text" class="form-control" id="credito" name="credito" required>
+            </div>
+            <div class="form-group">
+                <label for="grupo">Nota:</label>
+                <input type="text" class="form-control" id="nota" name="nota" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Estudiante</button>
+        </form>
+        {% if items %}
+        <!-- Lista de estudiantes -->
+        <h2 class="mt-5">Lista de Estudiantes</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Materia</th>
+                    <th>Crédito</th>
+                    <th>Nota</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {% for item in items %}
+                        <p>{{item.cedula}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in items %}
+                        <p>{{item.nombre}} {{item.apellido}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in itemsMateria %}
+                        <p>{{item.materia_nombre}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in itemsMateria %}
+                        <p>{{item.materia_credito}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in itemsMateria %}
+                        <p>{{item.materia_nota}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in items %}
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-outline-primary" id="editUser" value="{{item.id}}" onclick="editUser('{{item.id}}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button type="button" class="btn btn-outline-danger" id="deleteUser" value="{{item.id}}" onclick="deleteUser('{{item.id}}')"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    <script>
+        async function editUser(id) {
+            const response = await fetch(`/edit/${id}`, { method: 'GET' }).then(
+                response => {
+                // HTTP 301 response
+                // HOW CAN I FOLLOW THE HTTP REDIRECT RESPONSE?
+                if (response.redirected) {
+                    window.location.href = `/edit/${id}`;
+                    console.log("Bien")
+                    }
+                else{
+                    window.location.href = `/edit/${id}`;
+                    console.log("Algo pasa...")
+                }
+                }
+            );
+            console.log(response)
+        }
+        async function deleteUser(id) {
+            const response = await fetch(`/estudiante/delete/${id}`, { method: 'GET', redirected: true}).then(
+                response => {
+                // HTTP 301 response
+                // HOW CAN I FOLLOW THE HTTP REDIRECT RESPONSE?
+                if (response.redirected) {
+                    window.location.href = `/estudiante/delete/${id}`;
+                    }
+                else{
+                    window.location.href = `/estudiante/delete/${id}`;
+                    console.log("Algo pasa...")
+                }
+                }
+            );
+        }
+    </script>
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Script de Font-Awesome -->
+    <script src="https://kit.fontawesome.com/c2bad2526b.js" crossorigin="anonymous"></script>
+    
+</body>
+</html>
